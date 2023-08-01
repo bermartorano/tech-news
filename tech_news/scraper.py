@@ -9,7 +9,7 @@ def fetch(url: str) -> str:
     try:
         res = requests.get(
                             url,
-                            headers={"user-agent": "Fake user-agent"},
+                            # headers={"user-agent": "Fake user-agent"},
                             timeout=3,
                             )
         res.raise_for_status()
