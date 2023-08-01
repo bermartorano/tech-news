@@ -1,7 +1,18 @@
 # Requisito 1
-def fetch(url):
-    """Seu código deve vir aqui"""
-    raise NotImplementedError
+import requests
+import time
+
+
+def fetch(url: str) -> str:
+    time.sleep(1)
+    try:
+        res = requests.get(url, timeout=3)
+        res.raise_for_status()
+        return res.text
+    except requests.HTTPError:
+        return None
+    except requests.ReadTimeout:
+        return None
 
 
 # Requisito 2
