@@ -1,7 +1,6 @@
-# Requisito 1
 import requests
 import time
-# from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 
 
 def fetch(url: str) -> str:
@@ -22,11 +21,11 @@ def fetch(url: str) -> str:
         return None
 
 
-# def scrape_updates(html_content):
-#     page = BeautifulSoup(html_content, "html.parser")
-#     all_h2_titles = page.find_all('h2', {'class': 'entry-title'})
-#     final_list = [h2_title.a.attrs['href'] for h2_title in all_h2_titles]
-#     return final_list
+def scrape_updates(html_content):
+    page = BeautifulSoup(html_content, "html.parser")
+    all_h2_titles = page.find_all('h2', {'class': 'entry-title'})
+    final_list = [h2_title.a.attrs['href'] for h2_title in all_h2_titles]
+    return final_list
 
 
 # Requisito 3
