@@ -38,8 +38,27 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_news(html_content):
-    """Seu código deve vir aqui"""
-    raise NotImplementedError
+    page = BeautifulSoup(html_content, "html.parser")
+    final_dict = {
+    }
+    url = page.find(
+        'div', {'class': 'post-sidebar-inner'}
+        ).div['data-share-url']
+    final_dict['url'] = url
+    final_dict['title'] = page.find('h1',
+                                    {'class': 'entry-title'}).text.strip()
+    final_dict['timestamp'] = page.find('li', {'class': 'meta-date'}).text
+    final_dict['writer'] = page.find('span', {'class': 'author'}).a.text
+
+    read_time_text = page.find('li', {'class': 'meta-reading-time'}).text
+    final_dict['reading_time'] = int(read_time_text.split()[0])
+    final_dict['summary'] = page.find(
+                                        'div',
+                                        {'class': 'entry-content'}
+                                    ).p.text.strip()
+    category_link = page.find('div', {'class': 'meta-category'}).a
+    final_dict['category'] = category_link.find_all('span')[1].text
+    return final_dict
 
 
 # Requisito 5
