@@ -1,6 +1,7 @@
 import requests
 import time
 from bs4 import BeautifulSoup
+from tech_news.database import create_news
 
 
 def fetch(url: str) -> str:
@@ -74,10 +75,9 @@ def get_tech_news(amount):
             current_news_page = fetch(next_page_url)
             all_news_links = scrape_updates(current_news_page)
             current_news_index = 0
-        print('O TAMANHO DA LISTA DE LINKS: ', len(all_news_links))
-        print('O SUB ÍNDICE: ', current_news_index)
         news_html_content = fetch(all_news_links[current_news_index])
         news = scrape_news(news_html_content)
         news_scraped.append(news)
         current_news_index += 1
+    create_news(news_scraped)
     return news_scraped
