@@ -1,7 +1,13 @@
-# Requisito 7
+from tech_news.database import db
+import re
+
+
 def search_by_title(title):
-    """Seu código deve vir aqui"""
-    raise NotImplementedError
+    rgx = re.compile(f'{title}', re.IGNORECASE)
+    query = list(db.news.find({'title': {'$regex': rgx}},
+                              {'title': True, 'url': True, '_id': False}))
+    result = [(news['title'], news['url']) for news in query]
+    return result
 
 
 # Requisito 8
