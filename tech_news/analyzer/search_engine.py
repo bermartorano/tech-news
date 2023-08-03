@@ -25,5 +25,8 @@ def search_by_date(date):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
-    raise NotImplementedError
+    rgx = re.compile(f'{category}', re.IGNORECASE)
+    query = list(db.news.find({'category': {'$regex': rgx}},
+                              {'title': True, 'url': True, '_id': False}))
+    result = [(news['title'], news['url']) for news in query]
+    return result
