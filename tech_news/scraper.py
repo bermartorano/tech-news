@@ -24,8 +24,8 @@ def fetch(url: str) -> str:
 def scrape_updates(html_content):
     page = BeautifulSoup(html_content, "html.parser")
     all_h2_titles = page.find_all('h2', {'class': 'entry-title'})
-    final_list = [h2_title.a.attrs['href'] for h2_title in all_h2_titles]
-    return final_list
+    all_links = [h2_title.a.attrs['href'] for h2_title in all_h2_titles]
+    return all_links
 
 
 # Requisito 3
@@ -53,9 +53,9 @@ def scrape_news(html_content):
     read_time_text = page.find('li', {'class': 'meta-reading-time'}).text
     final_dict['reading_time'] = int(read_time_text.split()[0])
     final_dict['summary'] = page.find(
-                                        'div',
-                                        {'class': 'entry-content'}
-                                    ).p.text.strip()
+            'div',
+            {'class': 'entry-content'}
+        ).p.text.strip()
     category_link = page.find('div', {'class': 'meta-category'}).a
     final_dict['category'] = category_link.find_all('span')[1].text
     return final_dict
@@ -63,5 +63,21 @@ def scrape_news(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
-    raise NotImplementedError
+    news_scraped = []
+    initial_page_url = 'https://blog.betrybe.com/'
+    current_news_page = fetch(initial_page_url)
+    all_news_links = scrape_updates(current_news_page)
+    current_news_index = 0
+    for news_index in range(amount):
+        if current_news_index >= len(all_news_links):
+            next_page_url = scrape_next_page_link(current_news_page)
+            current_news_page = fetch(next_page_url)
+            all_news_links = scrape_updates(current_news_page)
+            current_news_index = 0
+        print('O TAMANHO DA LISTA DE LINKS: ', len(all_news_links))
+        print('O SUB ÍNDICE: ', current_news_index)
+        news_html_content = fetch(all_news_links[current_news_index])
+        news = scrape_news(news_html_content)
+        news_scraped.append(news)
+        current_news_index += 1
+    return news_scraped
