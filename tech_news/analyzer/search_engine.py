@@ -23,7 +23,6 @@ def search_by_date(date):
     return result
 
 
-# Requisito 9
 def search_by_category(category):
     rgx = re.compile(f'{category}', re.IGNORECASE)
     query = list(db.news.find({'category': {'$regex': rgx}},

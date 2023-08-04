@@ -29,7 +29,6 @@ def scrape_updates(html_content):
     return all_links
 
 
-# Requisito 3
 def scrape_next_page_link(html_content):
     page = BeautifulSoup(html_content, "html.parser")
     next_page_a_tag = page.find('a', {'class': 'next page-numbers'})
@@ -37,7 +36,6 @@ def scrape_next_page_link(html_content):
     return result
 
 
-# Requisito 4
 def scrape_news(html_content):
     page = BeautifulSoup(html_content, "html.parser")
     final_dict = {
@@ -62,7 +60,6 @@ def scrape_news(html_content):
     return final_dict
 
 
-# Requisito 5
 def get_tech_news(amount):
     news_scraped = []
     initial_page_url = 'https://blog.betrybe.com/'
